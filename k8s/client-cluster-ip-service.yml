@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-cluster-ip-service
+spec:
+  type: ClusterIP #C and I and P are capital
+  # This will be used by ClusterIP to determine what pods need access
+  selector: 
+    # This will refer to matchLabels.component and templates.metadata.labels.component
+    component: web 
+  ports: # Will follow the same nomenclature for NodePort service
+    - port: 3000 # Can be changed to a different port
+      # This will refer to the port on our pod deployment service
+      targetPort: 3000 # client-pod will be running React.
+  
+
+    

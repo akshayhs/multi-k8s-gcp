@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment 
+spec:
+  replicas: 3
+  selector: 
+    matchLabels:
+      component: server 
+  template:
+    metadata:
+      labels:
+        component: server
+    spec: # Customizes the behavior of each pod created
+      containers:
+        - name: server
+          image: stephengrider/multi-server # Requires env variables
+          ports:
+            - containerPort: 5000
+          env:
+            - name: PGUSER
+              value: postgres 
+            - name: PGHOST
+              value: postgres-clusterip-service 
+            - name: PGPORT
+              value: '5432' # Default
+            - name: PGDATABASE
+              value: postgres # Default db provided by Postgres
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword 
+                  key: PGPASSWORD 

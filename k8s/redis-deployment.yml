@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: redis-deployment 
+spec:
+  replicas: 1 # One copy of Redis at any given time
+  selector: 
+    matchLabels:
+      component: redis 
+  template:
+    metadata:
+      labels:
+        component: redis
+    spec:
+      # Even if there is only one container, we still need to use containers
+      containers:
+        - name: redis
+          image: redis # Will be fetched from Dockerhub
+          ports:
+            - containerPort: 6379 # default 
+
